@@ -35,8 +35,8 @@ class SicenetRepository {
                 val requestBuilder = Request.Builder()
                     .url(BASE_URL)
                     .post(soapBody.toRequestBody(MEDIA_TYPE_XML))
-                    .addHeader("User-Agent", "Mozilla/5.0") // Disfraz de navegador
-                    .addHeader("SOAPAction", "\"http://tempuri.org/accesoLogin\"") // Comillas obligatorias
+                    .addHeader("User-Agent", "Mozilla/5.0") //navegador
+                    .addHeader("SOAPAction", "\"http://tempuri.org/accesoLogin\"")
 
                 //Ejecutar petición
                 var response = client.newCall(requestBuilder.build()).execute()
@@ -79,9 +79,9 @@ class SicenetRepository {
                     //Validar éxito en el XML
                     //Buscamos cualquier respuesta que no sea "false" o vacía
                     val resultado = extractResultWithRegex(responseBody, "accesoLoginResult")
-                    val esValido = resultado.length > 5 && !resultado.contains("false", ignoreCase = true)
+                    val esValido = resultado.length > 5 && !resultado.contains("false", ignoreCase = true) // (Respuesta servidor: $resultado)
 
-                    if (esValido) Result.success(true) else Result.failure(Exception("Credenciales incorrectas (Respuesta servidor: $resultado)"))
+                    if (esValido) Result.success(true) else Result.failure(Exception("Credenciales incorrectas"))
                 } else {
                     Result.failure(Exception("Error HTTP: ${response.code}"))
                 }

@@ -16,7 +16,7 @@ class SicenetViewModel : ViewModel() {
     private val repository = SicenetRepository()
 
 
-    var matricula by mutableStateOf("12345678") // Valor por defecto para probar rápido
+    var matricula by mutableStateOf("")
     var password by mutableStateOf("")
 
 
@@ -44,7 +44,7 @@ class SicenetViewModel : ViewModel() {
 
             if (loginResult.isSuccess) {
                 //Si es exitoso, marcamos login y buscamos el perfil
-                //Nota: La cookie ya se guardó sola en el SessionManager dentro del repo
+                //La cookie ya se guardó sola en el SessionManager dentro del repo
                 fetchPerfil()
             } else {
                 isLoading = false
