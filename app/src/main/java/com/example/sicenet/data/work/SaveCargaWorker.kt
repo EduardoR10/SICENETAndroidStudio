@@ -9,14 +9,19 @@ import com.example.sicenet.data.remote.CargaAcademicaParser
 
 class SaveCargaWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
-        // Recibe el JSON del FetchCargaWorker
         val jsonString = inputData.getString("JSON_CARGA") ?: return Result.failure()
 
         return try {
             val db = SicenetDatabase.getDatabase(applicationContext)
-            val localDataSource = LocalDataSource(db.cargaAcademicaDao())
 
-            // Parsea y guarda en Base de Datos
+            val localDataSource = LocalDataSource(
+                db.cargaAcademicaDao(),
+                db.alumnoDao(),
+                db.kardexDao(),
+                db.califUnidadDao(),
+                db.califFinalDao()
+            )
+
             val entidades = CargaAcademicaParser.parse(jsonString)
             localDataSource.saveCargaAcademica(entidades)
 

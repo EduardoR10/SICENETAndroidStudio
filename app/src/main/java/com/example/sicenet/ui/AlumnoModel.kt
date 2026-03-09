@@ -1,5 +1,6 @@
 package com.example.sicenet.ui
 
+import com.example.sicenet.data.local.entity.AlumnoEntity
 import org.json.JSONObject
 
 data class Alumno(
@@ -17,7 +18,6 @@ data class Alumno(
 
 object AlumnoParser {
     fun parse(jsonString: String): Alumno {
-
         val json = JSONObject(jsonString)
 
         val nombreFoto = json.optString("urlFoto", "")
@@ -36,4 +36,35 @@ object AlumnoParser {
             fotoUrl = fullUrl
         )
     }
+}
+
+// Convertidores entre Interfaz de Usuario y Base de Datos
+fun Alumno.toEntity(): AlumnoEntity {
+    return AlumnoEntity(
+        matricula = this.matricula,
+        nombre = this.nombre,
+        carrera = this.carrera,
+        especialidad = this.especialidad,
+        semestre = this.semestre,
+        creditosAcumulados = this.creditosAcumulados,
+        creditosActuales = this.creditosActuales,
+        estatus = this.estatus,
+        inscrito = this.inscrito,
+        fotoUrl = this.fotoUrl
+    )
+}
+
+fun AlumnoEntity.toUiModel(): Alumno {
+    return Alumno(
+        matricula = this.matricula,
+        nombre = this.nombre,
+        carrera = this.carrera,
+        especialidad = this.especialidad,
+        semestre = this.semestre,
+        creditosAcumulados = this.creditosAcumulados,
+        creditosActuales = this.creditosActuales,
+        estatus = this.estatus,
+        inscrito = this.inscrito,
+        fotoUrl = this.fotoUrl
+    )
 }
